@@ -22,6 +22,10 @@ CLASS zcl_09_main_vehicles IMPLEMENTATION.
     DATA vehicles TYPE TABLE OF REF TO zcl_09_vehicle.
     DATA truck type REF to zcl_09_truck.
 
+    DATA rental type ref to zcl_09_rental.
+    data carrier type ref to zcl_09_carrier.
+    data partners TYPE TABLE of ref to zif_09_partner.
+
     "Instanzierung
     vehicle = new zcl_09_car( make = 'Porsche' model = '911' seats = 2 ). " Upcast
     append vehicle to vehicles.
@@ -34,6 +38,14 @@ CLASS zcl_09_main_vehicles IMPLEMENTATION.
 
     out->write( zcl_09_vehicle=>number_of_vehicles ).
 
+    rental = new #( ).
+    carrier = new #(  'Lufthansa' ).
+
+    append rental to partners. "Upcast
+    append carrier to partners. "Upcast
+
+
+    "Ausgabe
     LOOP at vehicles into vehicle.
     TRY.
         vehicle->accelerate( 30 ).
@@ -48,6 +60,15 @@ CLASS zcl_09_main_vehicles IMPLEMENTATION.
     out->write( |{ cond #( when truck->is_transformed = 'X' then 'Truck hat sich transformed' else 'Zurück zum LKW' ) }| ).
     endif.
     out->write( vehicle->to_string( ) ). " (Dynamische) Polymorphie
+    endloop.
+
+    LOOP at partners into data(partner).
+      out->write( partner->to_string(  ) ). "(Dynamische) Polymorphie
+
+      if partner is instance of zcl_09_carrier.
+        carrier = cast #( partner ). "Downcast
+        out->write( carrier->get_biggest_cargo_plane(  ) ).
+      endif.
     endloop.
 
 

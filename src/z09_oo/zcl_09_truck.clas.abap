@@ -33,9 +33,7 @@ CLASS zcl_09_truck IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD to_string.
-    string = super->to_string( ).
-    string &&= |, Frachkapazität: { cargo_in_tons }t|.
-
+    string = |{ make } { model } ({ speed_in_kmh }km/h), Frachkapazität: { cargo_in_tons }t|.
   ENDMETHOD.
 
   METHOD transform.

@@ -3,6 +3,8 @@ CLASS zcl_09_carrier DEFINITION
   CREATE PUBLIC.
 
   PUBLIC SECTION.
+  INTERFACES zif_09_partner.
+
     DATA name      TYPE string        READ-ONLY.
     DATA airplanes TYPE z09_airplanes READ-ONLY.
 
@@ -37,4 +39,8 @@ CLASS zcl_09_carrier IMPLEMENTATION.
       ENDIF.
     ENDLOOP.
   ENDMETHOD.
+  METHOD zif_09_partner~to_string.
+    string = 'Ich bin die Fluggesellschaft'.
+  ENDMETHOD.
+
 ENDCLASS.
